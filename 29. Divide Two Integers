@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+        int sign=1;
+        if(divisor==1)return dividend;
+        if(divisor==-1){
+            if(dividend<=INT_MIN)return INT_MAX;
+            return 0-dividend;
+        }
+        if(divisor==INT_MIN){
+            if(dividend==INT_MIN)return 1;
+            else return 0;
+        }
+        if((dividend>0 && divisor<0)||(dividend<0 && divisor>0)){
+            sign = -1;
+            
+        }
+        int remain=0;
+        if(dividend==INT_MIN){
+            dividend=INT_MAX;
+            remain=1;
+            }
+        
+        dividend=abs(dividend);
+        divisor=abs(divisor);
+        if(divisor>dividend)return 0;
+        int r=1;
+        int s=divisor;
+        cout<<dividend<<endl;
+        while(s<1073741824 && s+s<dividend){
+            s+=s;
+            r+=r;
+        }
+        if(s+divisor>dividend)return sign*r;
+        return r=sign*(r+divide(dividend-s+remain, divisor));
+        
+    }
+    
+};
