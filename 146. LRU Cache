@@ -1,0 +1,49 @@
+typedef pair<int, int> Node;
+
+class LRUCache {
+private:
+    list<Node> values;
+    unordered_map<int, list<Node>::iterator> lookup;
+    
+    int capacity;
+    
+public:
+    LRUCache(int capacity) : capacity(capacity) {}
+    
+    int get(int key) {
+        auto got = lookup.find(key);
+        
+        if (got != lookup.end()) {
+            auto it = got->second;
+            auto node = *it;
+            
+            values.erase(it);
+            values.push_back(node);
+            lookup[key] = prev(values.end());
+            
+            return node.second;
+        }
+        
+        return -1;
+    }
+    
+    void put(int key, int value) {
+        if (get(key) == -1) {
+            if (values.size() == capacity) {
+                auto node = values.front();
+                values.pop_front();
+
+                auto it = lookup.find(node.first);
+                lookup.erase(it);
+            }
+            
+            values.push_back({key, value});
+            lookup[key] = prev(values.end());
+            
+        } else {
+            auto node = prev(values.end());
+            node->second = value;
+        }
+    }
+};
+/**
