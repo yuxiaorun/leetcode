@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int result=0;
+    map<int, int> length;
+    int diameterOfBinaryTree(TreeNode* root) {
+        helper(root);
+        return result;
+    }
+private:
+    int helper(TreeNode* root){
+        if(root==NULL)return -1;
+        int r=0;int l=0;
+        l=helper(root->left);
+        r=helper(root->right);
+        result=max(result, l+r+2);
+        cout<<max(l,r)<<endl;
+        return max(l,r)+1;
+    }
+};
