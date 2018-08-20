@@ -1,0 +1,18 @@
+class Solution(object):
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        Max=0
+        cur=0
+        for i in nums:
+            if cur+i>0:
+                cur+=i
+            else:
+                cur=0
+            if cur > Max:
+                Max=cur
+        if Max==0:
+            return max(nums)
+        return Max
