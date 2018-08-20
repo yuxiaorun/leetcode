@@ -1,0 +1,25 @@
+from functools import cmp_to_key
+class Solution:
+    def topKFrequent(self, words, k):
+        """
+        :type words: List[str]
+        :type k: int
+        :rtype: List[str]
+        """
+        def mycmp(x,y):
+            if x[1]<y[1]:
+                return True
+            elif x[1]==y[1]:
+                return ord(x[0][0])<ord(y[0][0])
+            else:
+                return False
+        d={}
+        for w in words:
+            if w not in d:
+                d[w]=0
+            d[w]+=1
+        candidates = list(d.keys())
+        candidates.sort(key = lambda w: (-d[w], w))
+        print(candidates)
+        return candidates[:k]
+       
