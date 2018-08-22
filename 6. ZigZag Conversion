@@ -1,0 +1,39 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        if(numRows==1)return s;
+        vector<vector<char>> record(numRows, vector<char> (s.size(), ' '));
+        zigzag(0,0,false,0,s,record);
+        string r="";
+        for(int i=0;i<record.size();i++){
+            for(int j=0;j<record[0].size();j++){
+                if(record[i][j]!=' ')r+=record[i][j];
+            }
+        }
+        return r;
+    }
+private:
+    void zigzag(int x, int y, bool in_zag, int i, string s,  vector<vector<char>>& record){
+        if(i>s.size()-1)return;
+        if(in_zag){
+            record[x][y]=s[i]; 
+            x-=1;
+            y+=1;
+            if(x==0){
+                zigzag(x,y,false, i+1, s, record);
+            }else{
+                zigzag(x,y,true, i+1, s, record);
+            }    
+        }
+        else{
+            record[x][y]=s[i];
+            x+=1;
+            if(x==record.size()-1){
+                zigzag(x,y,true, i+1, s, record);
+            }else{
+                zigzag(x,y,false, i+1, s, record);
+            }    
+        }
+        
+    }
+};
