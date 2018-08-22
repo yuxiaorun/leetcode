@@ -1,0 +1,30 @@
+class Solution {
+public:
+    string target;
+    int minMutation(string start, string end, vector<string>& bank) {
+        vector<bool> record(bank.size(), false);
+        target=end;
+        dfs(start, bank, record, 0);
+        return result==INT_MAX?-1:result;
+    }
+private:
+    int result=INT_MAX;
+    void dfs(string cur, vector<string>& bank, vector<bool>& record,int step){
+        if(cur==target)result=min(step, result);
+        for(int i=0;i<record.size();i++){
+            if(!record[i] && different(cur, bank[i])==1){
+                record[i]=true;
+                dfs(bank[i], bank, record,step+1);
+                record[i]=false;
+            }
+        }
+        
+    }
+    int different(string s1, string s2){
+        int r=0;
+        for(int i=0;i<s1.size();i++){
+            if(s1[i]!=s2[i])r++;
+        }
+        return r;
+    }
+};
