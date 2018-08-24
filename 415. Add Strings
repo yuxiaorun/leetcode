@@ -1,0 +1,22 @@
+class Solution {
+public:
+    string addStrings(string num1, string num2) {
+        int i=num1.size()-1;
+        int j=num2.size()-1;
+        int remain=0;
+        string result="";
+        while(i>=0 || j>=0){
+            int i1=i>=0?num1[i]-'0':0;
+            int i2=j>=0?num2[j]-'0':0;
+            int next=(i1+i2+remain)%10;
+            remain=(i1+i2+remain)/10;
+            result+=next+'0';
+            i--;
+            j--;
+        }
+        if(remain>0)result+=remain+'0';
+        reverse(result.begin(), result.end());
+        return result;
+        
+    }
+};
