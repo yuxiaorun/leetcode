@@ -1,0 +1,49 @@
+class Solution {
+public:
+    void trim(string &s)
+{
+	while(s[0]==' '){
+        s.erase(0,1);
+    }
+	int i=s.size()-1;
+    while(s[i]==' '){
+        s.erase(i,1);
+        i--;
+    }
+}
+    bool isNumber(string s) {
+        trim(s);
+        cout<<s<<endl;
+        cout<<s.size()<<endl;
+        bool pointSeen = false;
+        bool eSeen = false;
+        bool numberSeen = false;
+        bool numberAfterE = true;
+        for(int i=0; i<s.size(); i++) {
+            
+            if('0' <= s[i] && s[i] <= '9') {
+                numberSeen = true;
+                numberAfterE = true;
+            } else if(s[i] == '.') {
+                if(eSeen || pointSeen) {
+                    return false;
+                }
+                pointSeen = true;
+            } else if(s[i] == 'e') {
+                if(eSeen || !numberSeen) {
+                    return false;
+                }
+                numberAfterE = false;
+                eSeen = true;
+            } else if(s[i] == '-' || s[i] == '+') {
+                if(i != 0 && s[i-1] != 'e') {
+                    return false;
+                }
+            } else {
+                return false;
+        }
+    }
+    
+        return numberSeen && numberAfterE;
+    }
+};
