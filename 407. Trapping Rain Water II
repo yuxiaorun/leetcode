@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int trapRainWater(vector<vector<int>>& heightMap) {
+        int m = heightMap.size(), n = (m == 0) ? 0 : heightMap[0].size();        
+        if(m < 3 || n < 3) return 0;
+        priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, greater<pair<int, pair<int, int>>>> pq;
+        vector<vector<int>> visited(m, vector<int>(n, 0));
+        for(int i = 0; i < m; i++)
+        {
+            for(int j = 0; j < n; j++)
+            {
+                if(!(i == 0 || i == m-1 || j == 0 || j == n-1)) continue;
+                pq.push(make_pair(heightMap[i][j], make_pair(i, j)));
+                visited[i][j] = 1;
+            }
+        }
+        vector<int> dir = {0, 1, 0, -1, 0};
+        int H = INT_MIN;
+        int res = 0;
+        while(!pq.empty())
+        {
+            auto p = pq.top(); pq.pop();
+            int height = p.first, i = p.second.first, j = p.second.second;
+            H = max(H, height);
+            for (int d = 0; d < 4; d++)
+            {
+                int x = i + dir[d], y = j + dir[d+1];
+                if(x < 0 || x >= m || y < 0 || y >= n || visited[x][y]) continue;
+                visited[x][y] = 1;
+                int diff = H - heightMap[x][y];
+                if(diff > 0) res += diff;
+                pq.push(make_pair(heightMap[x][y], make_pair(x, y)));
+            }
+        }
+        return res;
+    } 
+};
