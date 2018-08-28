@@ -1,0 +1,51 @@
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> result;
+        if(nums.size()<4){
+            return result;
+        }
+        for(int j=0;j<nums.size()-3;j++){
+            int T= target-nums[j];
+        for(int i=j+1;i<nums.size()-2;i++){
+            int t = T-nums[i];                      //夹逼法寻找［i+1:］中两个和为-nums[i]的数
+            int left = i+1;
+            int right = nums.size()-1;
+            while(left<right){                       
+                if(nums[left]+nums[right]>t){
+                    right--;
+                    while(nums[right]==nums[right+1])    //跳过重复的
+                        right--;
+                    
+                }
+                else if(nums[left]+nums[right]<t){
+                    left++;
+                    while(nums[left]==nums[left-1])
+                    left++;
+                }
+                else{
+                    vector<int> vec;
+                    vec.push_back(nums[j]);
+                    vec.push_back(nums[left]);
+                    vec.push_back(nums[right]);
+                    vec.push_back(nums[i]);
+                    result.push_back(vec);
+                    left++;
+                    while(nums[left]==nums[left-1])
+                    left++;
+                    right--;
+                    while(nums[right]==nums[right+1])    //跳过重复的
+                        right--;
+                }
+                
+            }
+            while(nums[i+1]==nums[i])
+                i++;
+        }
+            while(nums[j+1]==nums[j])
+                j++;
+        }
+        return result;
+    }
+};
